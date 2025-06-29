@@ -15,65 +15,294 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for professional styling
+# Custom CSS for light NBA-inspired theme
 st.markdown("""
 <style>
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    /* Global Styles with light NBA-inspired colors */
+    .stApp {
+        background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+        font-family: 'Inter', sans-serif;
+    }
+    
+    /* Main content area */
+    .main .block-container {
+        background: #FFFFFF;
+        border-radius: 15px;
+        padding: 2rem;
+        margin: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: 1px solid #E9ECEF;
+    }
+    
+    /* Header styling with NBA colors */
     .main-header {
         font-size: 3.5rem;
-        color: #1e3a8a;
+        background: linear-gradient(135deg, #C8102E 0%, #1D428A 50%, #FDB927 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         font-weight: 700;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
+    
     .sub-header {
         font-size: 2rem;
-        color: #1f2937;
+        color: #1A1D29;
         margin-bottom: 1.5rem;
         font-weight: 600;
-        border-bottom: 3px solid #3b82f6;
+        border-bottom: 3px solid transparent;
+        border-image: linear-gradient(90deg, #C8102E, #1D428A, #FDB927) 1;
         padding-bottom: 0.5rem;
     }
+    
+    /* Metrics styling with light theme */
+    .stMetric {
+        background: #F8F9FA;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid #E9ECEF;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease;
+    }
+    
+    .stMetric:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-color: #C8102E;
+    }
+    
     .metric-container {
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        background: #FFFFFF;
         padding: 1.5rem;
         border-radius: 12px;
         margin: 0.5rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-        border-left: 4px solid #3b82f6;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border-left: 4px solid;
+        border-image: linear-gradient(135deg, #C8102E, #1D428A, #FDB927) 1;
     }
+    
+    /* Section headers with NBA colors */
     .section-header {
-        color: #1e293b;
-        border-bottom: 2px solid #3b82f6;
+        color: #1A1D29;
+        border-bottom: 2px solid transparent;
+        border-image: linear-gradient(90deg, #C8102E, #1D428A, #FDB927) 1;
         padding-bottom: 0.5rem;
         margin-top: 2.5rem;
         margin-bottom: 1.5rem;
         font-weight: 600;
         font-size: 1.5rem;
     }
+    
+    /* Insight boxes with light theme */
     .insight-box {
-        background-color: #f1f5f9;
+        background: #F8F9FA;
         padding: 1.5rem;
-        border-radius: 10px;
-        border-left: 5px solid #0ea5e9;
+        border-radius: 12px;
+        border-left: 5px solid #C8102E;
         margin: 1rem 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        color: #495057;
     }
+    
+    /* Player cards with light styling */
     .player-card {
-        background: white;
-        padding: 1rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-left: 4px solid #10b981;
-        margin: 0.5rem 0;
+        background: #FFFFFF;
+        padding: 1.2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        border-left: 4px solid #FDB927;
+        margin: 0.8rem 0;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        color: #495057;
     }
+    
+    .player-card:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-left-color: #C8102E;
+    }
+    
+    /* Sidebar styling with light theme */
+    .css-1d391kg {
+        background: #FFFFFF;
+        border-right: 2px solid #E9ECEF;
+    }
+    
+    .css-1d391kg .css-1lcbmhc {
+        background: #FFFFFF;
+        color: #495057;
+    }
+    
     .sidebar .sidebar-content {
-        background-color: #f8fafc;
+        background: #FFFFFF;
+        color: #495057;
     }
-    .stMetric {
-        background-color: white;
-        padding: 1rem;
+    
+    /* Sidebar text */
+    .css-1d391kg .css-1lcbmhc .css-1adrfps {
+        color: #495057 !important;
+    }
+    
+    .css-1d391kg .css-1lcbmhc h2 {
+        color: #1A1D29 !important;
+        font-weight: 600;
+    }
+    
+    /* Sidebar elements */
+    .css-1d391kg .stSelectbox > div > div {
+        background: #F8F9FA;
+        border: 1px solid #DEE2E6;
+        color: #495057;
+    }
+    
+    .css-1d391kg .stMultiSelect > div > div {
+        background: #F8F9FA;
+        border: 1px solid #DEE2E6;
+    }
+    
+    .css-1d391kg .stSlider > div > div > div {
+        background: #F8F9FA;
+    }
+    
+    .css-1d391kg label {
+        color: #495057 !important;
+        font-weight: 500;
+    }
+    
+    /* Tabs styling with light theme */
+    .stTabs [data-baseweb="tab-list"] {
+        background: #F8F9FA;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 0.5rem;
+        gap: 0.5rem;
+        border: 1px solid #E9ECEF;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background: transparent;
+        border-radius: 6px;
+        color: #6C757D;
+        font-weight: 500;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.2s ease;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #C8102E 0%, #1D428A 100%) !important;
+        color: white !important;
+        box-shadow: 0 2px 4px rgba(200, 16, 46, 0.2);
+    }
+    
+    /* Dataframe styling */
+    .stDataFrame {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #E9ECEF;
+    }
+    
+    /* Button styling */
+    .stDownloadButton > button {
+        background: linear-gradient(135deg, #C8102E 0%, #1D428A 100%);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    
+    .stDownloadButton > button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(200, 16, 46, 0.3);
+    }
+    
+    /* Search input styling */
+    .stTextInput > div > div > input {
+        border-radius: 6px;
+        border: 1px solid #DEE2E6;
+        background: #FFFFFF;
+        color: #495057;
+        transition: border-color 0.2s ease;
+    }
+    
+    .stTextInput > div > div > input:focus {
+        border-color: #C8102E;
+        box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.1);
+    }
+    
+    /* Selectbox styling */
+    .stSelectbox > div > div {
+        border-radius: 6px;
+        border: 1px solid #DEE2E6;
+        background: #FFFFFF;
+    }
+    
+    /* Multiselect styling */
+    .stMultiSelect > div > div {
+        border-radius: 6px;
+        border: 1px solid #DEE2E6;
+        background: #FFFFFF;
+    }
+    
+    /* Slider styling */
+    .stSlider > div > div > div > div {
+        background: linear-gradient(90deg, #C8102E 0%, #1D428A 100%);
+    }
+    
+    /* Footer styling */
+    .footer-container {
+        background: #F8F9FA;
+        border-radius: 12px;
+        border: 1px solid #E9ECEF;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        color: #6C757D;
+    }
+    
+    /* Success/Info/Warning message styling */
+    .stAlert {
+        border-radius: 8px;
+        border-left: 4px solid;
+        background: #FFFFFF;
+    }
+    
+    .stSuccess {
+        border-left-color: #28A745;
+        background: #F8FFF9;
+        color: #155724;
+    }
+    
+    .stInfo {
+        border-left-color: #17A2B8;
+        background: #F0F9FF;
+        color: #0C5460;
+    }
+    
+    .stWarning {
+        border-left-color: #FFC107;
+        background: #FFFEF0;
+        color: #856404;
+    }
+    
+    /* Plotly chart container */
+    .js-plotly-plot {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid #E9ECEF;
+    }
+    
+    /* Text colors */
+    .stMarkdown, .stText {
+        color: #495057;
+    }
+    
+    /* Main title description */
+    .main p {
+        color: #6C757D !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -91,7 +320,7 @@ def load_data():
 def main():
     # Header
     st.markdown('<h1 class="main-header">NBA Draft ROI Analysis Dashboard</h1>', unsafe_allow_html=True)
-    st.markdown('<p style="text-align: center; font-size: 1.2rem; color: #64748b; margin-bottom: 3rem;">Comprehensive Analysis of Draft Performance and Return on Investment</p>', unsafe_allow_html=True)
+    st.markdown('<p style="text-align: center; font-size: 1.2rem; color: #6C757D; margin-bottom: 3rem;">Comprehensive Analysis of Draft Performance and Return on Investment</p>', unsafe_allow_html=True)
     
     # Load data
     df = load_data()
@@ -190,7 +419,7 @@ def main():
                     hover_data=['PLAYER_FIRST_NAME', 'PLAYER_LAST_NAME', 'DRAFT_YEAR'],
                     title="Draft Number vs Value Score",
                     labels={'DRAFT_NUMBER': 'Draft Position', 'value_score': 'Career Value Score'},
-                    color_discrete_sequence=['#3b82f6']
+                    color_discrete_sequence=['#C8102E']
                 )
                 fig1.add_scatter(
                     x=drafted_players['DRAFT_NUMBER'], 
@@ -218,7 +447,7 @@ def main():
                     markers=True,
                     title="Average ROI by Draft Round",
                     labels={'DRAFT_ROUND': 'Draft Round', 'draft_value_ratio': 'Average ROI'},
-                    color_discrete_sequence=['#10b981']
+                    color_discrete_sequence=['#FDB927']
                 )
                 fig2.update_layout(
                     plot_bgcolor='rgba(0,0,0,0)',
@@ -242,7 +471,7 @@ def main():
                 labels={'player_name': 'Player', 'draft_value_ratio': 'Return on Investment'},
                 hover_data=['DRAFT_YEAR', 'DRAFT_NUMBER', 'value_score'],
                 color='draft_value_ratio',
-                color_continuous_scale='Blues'
+                color_continuous_scale='Reds'
             )
             fig3.update_layout(
                 xaxis_tickangle=45,
@@ -371,7 +600,7 @@ def main():
                 nbins=50,
                 title="Distribution of Career Value Scores",
                 labels={'value_score': 'Career Value Score', 'count': 'Number of Players'},
-                color_discrete_sequence=['#6366f1']
+                color_discrete_sequence=['#1D428A']
             )
             fig_hist.update_layout(
                 plot_bgcolor='rgba(0,0,0,0)',
@@ -473,11 +702,11 @@ def main():
     st.markdown("---")
     st.markdown(
         """
-        <div style='text-align: center; color: #64748b; margin-top: 3rem; padding: 2rem; background-color: #f8fafc; border-radius: 10px;'>
-        <h4 style='color: #1e293b; margin-bottom: 1rem;'>NBA Draft ROI Analysis Dashboard</h4>
-        <p style='margin-bottom: 0.5rem;'><strong>Professional Analytics Platform</strong></p>
-        <p style='margin-bottom: 0.5rem;'>Comprehensive analysis of NBA draft performance and return on investment</p>
-        <p style='margin-bottom: 0;'><em>Built with advanced data science methodologies and interactive visualization</em></p>
+        <div style='text-align: center; color: #6C757D; margin-top: 3rem; padding: 2rem; background-color: #F8F9FA; border-radius: 12px; border: 1px solid #E9ECEF;'>
+        <h4 style='color: #1A1D29; margin-bottom: 1rem; font-weight: 600;'>NBA Draft ROI Analysis Dashboard</h4>
+        <p style='margin-bottom: 0.5rem; color: #495057;'><strong>Professional Analytics Platform</strong></p>
+        <p style='margin-bottom: 0.5rem; color: #6C757D;'>Comprehensive analysis of NBA draft performance and return on investment</p>
+        <p style='margin-bottom: 0; color: #ADB5BD; font-style: italic;'>Built with advanced data science methodologies and interactive visualization</p>
         </div>
         """, 
         unsafe_allow_html=True
