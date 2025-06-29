@@ -10,7 +10,7 @@ from plotly.subplots import make_subplots
 # Set page config
 st.set_page_config(
     page_title="NBA Draft ROI Analysis Dashboard",
-    page_icon="📊",
+    page_icon="🏀",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -25,16 +25,67 @@ st.markdown("""
     .stApp {
         background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
         font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+        min-height: 100vh;
     }
     
-    /* Main content area */
+    /* Main content area - fixed positioning */
     .main .block-container {
         background: #FFFFFF;
         border-radius: 15px;
         padding: 2rem;
-        margin: 1rem;
+        margin: 1rem auto;
+        max-width: 1200px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         border: 1px solid #E9ECEF;
+        position: relative;
+        width: calc(100% - 2rem);
+        overflow-x: hidden;
+        box-sizing: border-box;
+        min-height: 100vh;
+    }
+    
+    /* Prevent content shifting and layout jumps */
+    .stApp {
+        position: relative;
+        width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .stApp > div {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+    
+    /* Fix main content container */
+    .main {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        max-width: none !important;
+        position: relative;
+        width: 100%;
+    }
+    
+    /* Ensure consistent layout and prevent movement */
+    .element-container {
+        width: 100% !important;
+        position: relative;
+        box-sizing: border-box;
+    }
+    
+    /* Fix column layouts and prevent shifting */
+    .row-widget {
+        width: 100% !important;
+        position: relative;
+        box-sizing: border-box;
+    }
+    
+    /* Prevent all content from moving */
+    .stMarkdown, .stMetric, .stDataFrame, .stPlotlyChart {
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     /* Header styling with NBA colors */
@@ -59,7 +110,7 @@ st.markdown("""
         padding-bottom: 0.5rem;
     }
     
-    /* Metrics styling with light theme */
+    /* Metrics styling with light theme - prevent movement */
     .stMetric {
         background: #F8F9FA;
         padding: 1.5rem;
@@ -67,10 +118,14 @@ st.markdown("""
         border: 1px solid #E9ECEF;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         transition: transform 0.2s ease;
+        box-sizing: border-box;
+        width: 100%;
+        position: relative;
+        transform: none !important;
     }
     
     .stMetric:hover {
-        transform: translateY(-1px);
+        transform: translateY(-1px) !important;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-color: #C8102E;
     }
@@ -83,6 +138,10 @@ st.markdown("""
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         border-left: 4px solid;
         border-image: linear-gradient(135deg, #C8102E, #1D428A, #FDB927) 1;
+        box-sizing: border-box;
+        width: 100%;
+        position: relative;
+        transform: none !important;
     }
     
     /* Section headers with NBA colors */
@@ -108,7 +167,7 @@ st.markdown("""
         color: #495057;
     }
     
-    /* Player cards with light styling */
+    /* Player cards with light styling - prevent movement */
     .player-card {
         background: #FFFFFF;
         padding: 1.2rem;
@@ -118,28 +177,53 @@ st.markdown("""
         margin: 0.8rem 0;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
         color: #495057;
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+        transform: none !important;
     }
     
     .player-card:hover {
-        transform: translateY(-1px);
+        transform: translateY(-1px) !important;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         border-left-color: #C8102E;
     }
     
-    /* Sidebar styling with light theme */
+    /* Sidebar styling with light theme - prevent layout shifts */
     .css-1d391kg {
         background: #FFFFFF;
         border-right: 2px solid #E9ECEF;
+        width: 300px !important;
+        position: relative !important;
+        height: auto;
+        overflow-y: auto;
     }
     
     .css-1d391kg .css-1lcbmhc {
         background: #FFFFFF;
         color: #495057;
+        padding: 1rem;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     .sidebar .sidebar-content {
         background: #FFFFFF;
         color: #495057;
+        width: 100%;
+        position: relative;
+    }
+    
+    /* Remove fixed sidebar positioning to prevent content shifts */
+    .css-1d391kg ~ .css-1lcbmhc {
+        margin-left: 0 !important;
+    }
+    
+    /* Fix sidebar scrolling */
+    .css-1d391kg .css-17eq0hr {
+        overflow-y: auto;
+        max-height: none;
+        position: relative;
     }
     
     /* Sidebar text */
@@ -288,21 +372,111 @@ st.markdown("""
         color: #856404;
     }
     
-    /* Plotly chart container */
+    /* Plotly chart container - prevent movement */
     .js-plotly-plot {
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         border: 1px solid #E9ECEF;
+        width: 100% !important;
+        height: auto !important;
+        position: relative;
+        box-sizing: border-box;
     }
     
-    /* Text colors */
+    /* Text colors and prevent text movement */
     .stMarkdown, .stText {
         color: #495057;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
     }
     
     /* Main title description */
     .main p {
         color: #6C757D !important;
+        position: relative;
+        width: 100%;
+    }
+    
+    /* Prevent layout shifts and jumping - Updated */
+    .stApp {
+        background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+        min-height: 100vh;
+        position: relative;
+        width: 100%;
+    }
+    
+    /* Fix container widths and prevent movement */
+    .block-container {
+        max-width: none !important;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Stabilize all streamlit components */
+    .stColumn {
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .stTabs {
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    /* Fix responsive behavior and prevent mobile shifting */
+    @media (max-width: 768px) {
+        .css-1d391kg {
+            position: relative !important;
+            width: 100% !important;
+        }
+        
+        .css-1d391kg ~ .css-1lcbmhc {
+            margin-left: 0 !important;
+        }
+        
+        .main .block-container {
+            margin: 0.5rem auto;
+            width: calc(100% - 1rem);
+            padding: 1rem;
+        }
+        
+        .stColumn {
+            width: 100% !important;
+            position: relative;
+        }
+        
+        .player-card {
+            margin: 0.5rem 0;
+        }
+    }
+    
+    /* Additional stability rules */
+    * {
+        box-sizing: border-box;
+    }
+    
+    .stApp, .stApp > div, .main, .block-container {
+        transition: none !important;
+        animation: none !important;
+    }
+    
+    /* Prevent any transforms on load */
+    .stMetric > div,
+    .stMarkdown > div,
+    .stDataFrame > div,
+    .stPlotlyChart > div {
+        transform: none !important;
+        transition: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
