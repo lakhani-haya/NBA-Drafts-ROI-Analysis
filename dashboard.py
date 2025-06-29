@@ -12,7 +12,7 @@ st.set_page_config(
     page_title="NBA Draft ROI Analysis Dashboard",
     page_icon="🏀",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"  # Start with sidebar collapsed to prevent layout shifts
 )
 
 # Custom CSS for light NBA-inspired theme
@@ -29,7 +29,7 @@ st.markdown("""
         min-height: 100vh;
     }
     
-    /* Main content area - fixed positioning */
+    /* Main content area */
     .main .block-container {
         background: #FFFFFF;
         border-radius: 15px;
@@ -38,54 +38,6 @@ st.markdown("""
         max-width: 1200px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         border: 1px solid #E9ECEF;
-        position: relative;
-        width: calc(100% - 2rem);
-        overflow-x: hidden;
-        box-sizing: border-box;
-        min-height: 100vh;
-    }
-    
-    /* Prevent content shifting and layout jumps */
-    .stApp {
-        position: relative;
-        width: 100%;
-        overflow-x: hidden;
-    }
-    
-    .stApp > div {
-        overflow-x: hidden;
-        width: 100%;
-        position: relative;
-    }
-    
-    /* Fix main content container */
-    .main {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-        max-width: none !important;
-        position: relative;
-        width: 100%;
-    }
-    
-    /* Ensure consistent layout and prevent movement */
-    .element-container {
-        width: 100% !important;
-        position: relative;
-        box-sizing: border-box;
-    }
-    
-    /* Fix column layouts and prevent shifting */
-    .row-widget {
-        width: 100% !important;
-        position: relative;
-        box-sizing: border-box;
-    }
-    
-    /* Prevent all content from moving */
-    .stMarkdown, .stMetric, .stDataFrame, .stPlotlyChart {
-        position: relative;
-        width: 100%;
-        box-sizing: border-box;
     }
     
     /* Header styling with NBA colors */
@@ -110,7 +62,7 @@ st.markdown("""
         padding-bottom: 0.5rem;
     }
     
-    /* Metrics styling with light theme - prevent movement */
+    /* Metrics styling */
     .stMetric {
         background: #F8F9FA;
         padding: 1.5rem;
@@ -118,30 +70,12 @@ st.markdown("""
         border: 1px solid #E9ECEF;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         transition: transform 0.2s ease;
-        box-sizing: border-box;
-        width: 100%;
-        position: relative;
-        transform: none !important;
     }
     
     .stMetric:hover {
-        transform: translateY(-1px) !important;
+        transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-color: #C8102E;
-    }
-    
-    .metric-container {
-        background: #FFFFFF;
-        padding: 1.5rem;
-        border-radius: 12px;
-        margin: 0.5rem 0;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        border-left: 4px solid;
-        border-image: linear-gradient(135deg, #C8102E, #1D428A, #FDB927) 1;
-        box-sizing: border-box;
-        width: 100%;
-        position: relative;
-        transform: none !important;
     }
     
     /* Section headers with NBA colors */
@@ -156,7 +90,25 @@ st.markdown("""
         font-size: 1.5rem;
     }
     
-    /* Insight boxes with light theme */
+    /* Player cards */
+    .player-card {
+        background: #FFFFFF;
+        padding: 1.2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        border-left: 4px solid #FDB927;
+        margin: 0.8rem 0;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        color: #495057;
+    }
+    
+    .player-card:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-left-color: #C8102E;
+    }
+    
+    /* Insight boxes */
     .insight-box {
         background: #F8F9FA;
         padding: 1.5rem;
@@ -167,97 +119,13 @@ st.markdown("""
         color: #495057;
     }
     
-    /* Player cards with light styling - prevent movement */
-    .player-card {
-        background: #FFFFFF;
-        padding: 1.2rem;
-        border-radius: 12px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        border-left: 4px solid #FDB927;
-        margin: 0.8rem 0;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        color: #495057;
-        position: relative;
-        width: 100%;
-        box-sizing: border-box;
-        transform: none !important;
-    }
-    
-    .player-card:hover {
-        transform: translateY(-1px) !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        border-left-color: #C8102E;
-    }
-    
-    /* Sidebar styling with light theme - prevent layout shifts */
+    /* Sidebar styling */
     .css-1d391kg {
         background: #FFFFFF;
         border-right: 2px solid #E9ECEF;
-        width: 300px !important;
-        position: relative !important;
-        height: auto;
-        overflow-y: auto;
     }
     
-    .css-1d391kg .css-1lcbmhc {
-        background: #FFFFFF;
-        color: #495057;
-        padding: 1rem;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    .sidebar .sidebar-content {
-        background: #FFFFFF;
-        color: #495057;
-        width: 100%;
-        position: relative;
-    }
-    
-    /* Remove fixed sidebar positioning to prevent content shifts */
-    .css-1d391kg ~ .css-1lcbmhc {
-        margin-left: 0 !important;
-    }
-    
-    /* Fix sidebar scrolling */
-    .css-1d391kg .css-17eq0hr {
-        overflow-y: auto;
-        max-height: none;
-        position: relative;
-    }
-    
-    /* Sidebar text */
-    .css-1d391kg .css-1lcbmhc .css-1adrfps {
-        color: #495057 !important;
-    }
-    
-    .css-1d391kg .css-1lcbmhc h2 {
-        color: #1A1D29 !important;
-        font-weight: 600;
-    }
-    
-    /* Sidebar elements */
-    .css-1d391kg .stSelectbox > div > div {
-        background: #F8F9FA;
-        border: 1px solid #DEE2E6;
-        color: #495057;
-    }
-    
-    .css-1d391kg .stMultiSelect > div > div {
-        background: #F8F9FA;
-        border: 1px solid #DEE2E6;
-    }
-    
-    .css-1d391kg .stSlider > div > div > div {
-        background: #F8F9FA;
-    }
-    
-    .css-1d391kg label {
-        color: #495057 !important;
-        font-weight: 500;
-    }
-    
-    /* Tabs styling with light theme */
+    /* Tabs styling */
     .stTabs [data-baseweb="tab-list"] {
         background: #F8F9FA;
         border-radius: 8px;
@@ -305,7 +173,7 @@ st.markdown("""
         box-shadow: 0 4px 8px rgba(200, 16, 46, 0.3);
     }
     
-    /* Search input styling */
+    /* Input styling */
     .stTextInput > div > div > input {
         border-radius: 6px;
         border: 1px solid #DEE2E6;
@@ -319,35 +187,35 @@ st.markdown("""
         box-shadow: 0 0 0 2px rgba(200, 16, 46, 0.1);
     }
     
-    /* Selectbox styling */
     .stSelectbox > div > div {
         border-radius: 6px;
         border: 1px solid #DEE2E6;
         background: #FFFFFF;
     }
     
-    /* Multiselect styling */
     .stMultiSelect > div > div {
         border-radius: 6px;
         border: 1px solid #DEE2E6;
         background: #FFFFFF;
     }
     
-    /* Slider styling */
-    .stSlider > div > div > div > div {
-        background: linear-gradient(90deg, #C8102E 0%, #1D428A 100%);
-    }
-    
-    /* Footer styling */
-    .footer-container {
-        background: #F8F9FA;
-        border-radius: 12px;
-        border: 1px solid #E9ECEF;
+    /* Plotly charts */
+    .js-plotly-plot {
+        border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        color: #6C757D;
+        border: 1px solid #E9ECEF;
     }
     
-    /* Success/Info/Warning message styling */
+    /* Text colors */
+    .stMarkdown, .stText {
+        color: #495057;
+    }
+    
+    .main p {
+        color: #6C757D !important;
+    }
+    
+    /* Success/Info/Warning messages */
     .stAlert {
         border-radius: 8px;
         border-left: 4px solid;
@@ -372,111 +240,18 @@ st.markdown("""
         color: #856404;
     }
     
-    /* Plotly chart container - prevent movement */
-    .js-plotly-plot {
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        border: 1px solid #E9ECEF;
-        width: 100% !important;
-        height: auto !important;
-        position: relative;
-        box-sizing: border-box;
+    /* ONLY prevent sidebar-induced layout shifts */
+    [data-testid="stSidebar"] {
+        position: relative !important;
     }
     
-    /* Text colors and prevent text movement */
-    .stMarkdown, .stText {
-        color: #495057;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        position: relative;
-        width: 100%;
-        box-sizing: border-box;
+    .css-1d391kg ~ .css-1lcbmhc {
+        margin-left: 0 !important;
     }
     
-    /* Main title description */
-    .main p {
-        color: #6C757D !important;
-        position: relative;
-        width: 100%;
-    }
-    
-    /* Prevent layout shifts and jumping - Updated */
-    .stApp {
-        background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
-        font-family: 'Inter', sans-serif;
-        overflow-x: hidden;
-        min-height: 100vh;
-        position: relative;
-        width: 100%;
-    }
-    
-    /* Fix container widths and prevent movement */
-    .block-container {
-        max-width: none !important;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        position: relative;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    /* Stabilize all streamlit components */
-    .stColumn {
-        position: relative;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    .stTabs {
-        position: relative;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    
-    /* Fix responsive behavior and prevent mobile shifting */
-    @media (max-width: 768px) {
-        .css-1d391kg {
-            position: relative !important;
-            width: 100% !important;
-        }
-        
-        .css-1d391kg ~ .css-1lcbmhc {
-            margin-left: 0 !important;
-        }
-        
-        .main .block-container {
-            margin: 0.5rem auto;
-            width: calc(100% - 1rem);
-            padding: 1rem;
-        }
-        
-        .stColumn {
-            width: 100% !important;
-            position: relative;
-        }
-        
-        .player-card {
-            margin: 0.5rem 0;
-        }
-    }
-    
-    /* Additional stability rules */
-    * {
-        box-sizing: border-box;
-    }
-    
-    .stApp, .stApp > div, .main, .block-container {
-        transition: none !important;
-        animation: none !important;
-    }
-    
-    /* Prevent any transforms on load */
-    .stMetric > div,
-    .stMarkdown > div,
-    .stDataFrame > div,
-    .stPlotlyChart > div {
-        transform: none !important;
-        transition: none !important;
+    /* Ensure stable main content positioning */
+    .main {
+        transition: margin-left 0s !important;
     }
 </style>
 """, unsafe_allow_html=True)
