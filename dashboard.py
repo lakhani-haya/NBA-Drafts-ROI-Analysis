@@ -184,7 +184,7 @@ def main():
                 labels={'player_name': 'Player', 'draft_value_ratio': 'ROI'},
                 hover_data=['DRAFT_YEAR', 'DRAFT_NUMBER', 'value_score']
             )
-            fig3.update_xaxis(tickangle=45)
+            fig3.update_layout(xaxis_tickangle=45)
             st.plotly_chart(fig3, use_container_width=True)
     
     with tab2:
@@ -264,7 +264,7 @@ def main():
             fig_hist = px.histogram(
                 df_filtered, 
                 x='value_score', 
-                bins=50,
+                nbins=50,
                 title="Distribution of Value Scores",
                 labels={'value_score': 'Value Score', 'count': 'Frequency'}
             )
