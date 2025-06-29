@@ -9,34 +9,71 @@ from plotly.subplots import make_subplots
 
 # Set page config
 st.set_page_config(
-    page_title="NBA Draft ROI Dashboard",
-    page_icon="🏀",
+    page_title="NBA Draft ROI Analysis Dashboard",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for better styling
+# Custom CSS for professional styling
 st.markdown("""
 <style>
     .main-header {
-        font-size: 3rem;
-        color: #1f77b4;
+        font-size: 3.5rem;
+        color: #1e3a8a;
         text-align: center;
         margin-bottom: 2rem;
-        font-weight: bold;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    .sub-header {
+        font-size: 2rem;
+        color: #1f2937;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        border-bottom: 3px solid #3b82f6;
+        padding-bottom: 0.5rem;
     }
     .metric-container {
-        background-color: #f0f2f6;
-        padding: 1rem;
-        border-radius: 10px;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        padding: 1.5rem;
+        border-radius: 12px;
         margin: 0.5rem 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        border-left: 4px solid #3b82f6;
     }
     .section-header {
-        color: #2c3e50;
-        border-bottom: 2px solid #3498db;
+        color: #1e293b;
+        border-bottom: 2px solid #3b82f6;
         padding-bottom: 0.5rem;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+    .insight-box {
+        background-color: #f1f5f9;
+        padding: 1.5rem;
+        border-radius: 10px;
+        border-left: 5px solid #0ea5e9;
+        margin: 1rem 0;
+    }
+    .player-card {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-left: 4px solid #10b981;
+        margin: 0.5rem 0;
+    }
+    .sidebar .sidebar-content {
+        background-color: #f8fafc;
+    }
+    .stMetric {
+        background-color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -53,13 +90,15 @@ def load_data():
 
 def main():
     # Header
-    st.markdown('<h1 class="main-header">🏀 NBA Draft ROI Dashboard</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">NBA Draft ROI Analysis Dashboard</h1>', unsafe_allow_html=True)
+    st.markdown('<p style="text-align: center; font-size: 1.2rem; color: #64748b; margin-bottom: 3rem;">Comprehensive Analysis of Draft Performance and Return on Investment</p>', unsafe_allow_html=True)
     
     # Load data
     df = load_data()
     
     # Sidebar filters
-    st.sidebar.header("🔧 Filters")
+    st.sidebar.markdown("## Analysis Filters")
+    st.sidebar.markdown("---")
     
     # Year range filter
     if 'DRAFT_YEAR' in df.columns:
@@ -69,7 +108,8 @@ def main():
                 "Draft Year Range",
                 min_value=int(draft_years.min()),
                 max_value=int(draft_years.max()),
-                value=(int(draft_years.min()), int(draft_years.max()))
+                value=(int(draft_years.min()), int(draft_years.max())),
+                help="Select the range of draft years to analyze"
             )
             df_filtered = df[(df['DRAFT_YEAR'] >= year_range[0]) & (df['DRAFT_YEAR'] <= year_range[1])]
         else:
@@ -84,7 +124,8 @@ def main():
             selected_rounds = st.sidebar.multiselect(
                 "Draft Rounds",
                 options=available_rounds,
-                default=available_rounds
+                default=available_rounds,
+                help="Select specific draft rounds to include in analysis"
             )
             if selected_rounds:
                 df_filtered = df_filtered[df_filtered['DRAFT_ROUND'].isin(selected_rounds)]
@@ -92,21 +133,23 @@ def main():
     # Filter for drafted players only
     drafted_players = df_filtered[df_filtered['draft_value_ratio'].notna()]
     
-    # Main dashboard content
+    # Executive Summary Section
+    st.markdown('<h2 class="sub-header">Executive Summary</h2>', unsafe_allow_html=True)
+    
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         st.metric(
-            label="Total Players",
+            label="Total Players Analyzed",
             value=f"{len(df_filtered):,}",
-            delta=f"All time data"
+            delta=f"Covering {len(df_filtered['DRAFT_YEAR'].dropna().unique()) if 'DRAFT_YEAR' in df_filtered.columns else 'All'} draft years"
         )
     
     with col2:
         st.metric(
             label="Drafted Players",
             value=f"{len(drafted_players):,}",
-            delta=f"{len(drafted_players)/len(df_filtered)*100:.1f}% of total"
+            delta=f"{len(drafted_players)/len(df_filtered)*100:.1f}% of dataset"
         )
     
     with col3:
@@ -114,30 +157,31 @@ def main():
             avg_roi = drafted_players['draft_value_ratio'].mean()
             st.metric(
                 label="Average ROI",
-                value=f"{avg_roi:.1f}",
-                delta="Draft value ratio"
+                value=f"{avg_roi:.2f}",
+                delta="Value per draft position"
             )
     
     with col4:
         if len(df_filtered) > 0:
             avg_career = df_filtered['career_length'].mean()
             st.metric(
-                label="Avg Career Length",
+                label="Average Career Length",
                 value=f"{avg_career:.1f} years",
-                delta="All players"
+                delta="All players in dataset"
             )
     
-    # Tabs for different sections
-    tab1, tab2, tab3, tab4 = st.tabs(["📊 Visualizations", "🏆 Top Performers", "📈 Analysis", "📋 Data Explorer"])
+    # Main Analysis Sections
+    tab1, tab2, tab3, tab4 = st.tabs(["Performance Visualization", "Top Performers Analysis", "Statistical Analysis", "Data Explorer"])
     
     with tab1:
-        st.markdown('<h2 class="section-header">Interactive Visualizations</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 class="section-header">Performance Visualization</h2>', unsafe_allow_html=True)
         
         # Create three columns for the three main plots
         viz_col1, viz_col2 = st.columns(2)
         
         with viz_col1:
-            st.subheader("Draft Position vs Value Score")
+            st.subheader("Draft Position vs Player Value")
+            st.markdown("*Analysis of the relationship between draft position and career value*")
             if len(drafted_players) > 0:
                 fig1 = px.scatter(
                     drafted_players, 
@@ -145,19 +189,26 @@ def main():
                     y='value_score',
                     hover_data=['PLAYER_FIRST_NAME', 'PLAYER_LAST_NAME', 'DRAFT_YEAR'],
                     title="Draft Number vs Value Score",
-                    labels={'DRAFT_NUMBER': 'Draft Position', 'value_score': 'Value Score'}
+                    labels={'DRAFT_NUMBER': 'Draft Position', 'value_score': 'Career Value Score'},
+                    color_discrete_sequence=['#3b82f6']
                 )
                 fig1.add_scatter(
                     x=drafted_players['DRAFT_NUMBER'], 
                     y=np.poly1d(np.polyfit(drafted_players['DRAFT_NUMBER'], drafted_players['value_score'], 1))(drafted_players['DRAFT_NUMBER']),
                     mode='lines',
                     name='Trend Line',
-                    line=dict(color='red', dash='dash')
+                    line=dict(color='#ef4444', dash='dash', width=3)
+                )
+                fig1.update_layout(
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(size=12)
                 )
                 st.plotly_chart(fig1, use_container_width=True)
         
         with viz_col2:
-            st.subheader("Average ROI by Draft Round")
+            st.subheader("ROI Efficiency by Draft Round")
+            st.markdown("*Average return on investment across different draft rounds*")
             if len(drafted_players) > 0:
                 roi_by_round = drafted_players.groupby('DRAFT_ROUND')['draft_value_ratio'].mean().reset_index()
                 fig2 = px.line(
@@ -166,12 +217,19 @@ def main():
                     y='draft_value_ratio',
                     markers=True,
                     title="Average ROI by Draft Round",
-                    labels={'DRAFT_ROUND': 'Draft Round', 'draft_value_ratio': 'Average ROI'}
+                    labels={'DRAFT_ROUND': 'Draft Round', 'draft_value_ratio': 'Average ROI'},
+                    color_discrete_sequence=['#10b981']
+                )
+                fig2.update_layout(
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    font=dict(size=12)
                 )
                 st.plotly_chart(fig2, use_container_width=True)
         
         # Top 10 ROI Players Bar Chart (full width)
-        st.subheader("Top 10 ROI Players")
+        st.subheader("Highest ROI Draft Selections")
+        st.markdown("*Players who significantly exceeded expectations relative to their draft position*")
         if len(drafted_players) > 0:
             top_10_roi = drafted_players.nlargest(10, 'draft_value_ratio')
             top_10_roi['player_name'] = top_10_roi['PLAYER_FIRST_NAME'] + ' ' + top_10_roi['PLAYER_LAST_NAME']
@@ -181,19 +239,27 @@ def main():
                 x='player_name',
                 y='draft_value_ratio',
                 title="Top 10 Players by Draft ROI",
-                labels={'player_name': 'Player', 'draft_value_ratio': 'ROI'},
-                hover_data=['DRAFT_YEAR', 'DRAFT_NUMBER', 'value_score']
+                labels={'player_name': 'Player', 'draft_value_ratio': 'Return on Investment'},
+                hover_data=['DRAFT_YEAR', 'DRAFT_NUMBER', 'value_score'],
+                color='draft_value_ratio',
+                color_continuous_scale='Blues'
             )
-            fig3.update_layout(xaxis_tickangle=45)
+            fig3.update_layout(
+                xaxis_tickangle=45,
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(size=12)
+            )
             st.plotly_chart(fig3, use_container_width=True)
     
     with tab2:
-        st.markdown('<h2 class="section-header">Top Performers</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 class="section-header">Top Performers Analysis</h2>', unsafe_allow_html=True)
         
         perf_col1, perf_col2 = st.columns(2)
         
         with perf_col1:
-            st.subheader("🏆 Top 10 ROI Players")
+            st.subheader("Highest ROI Players")
+            st.markdown("*Players with the best value relative to draft position*")
             if len(drafted_players) > 0:
                 top_roi = drafted_players.nlargest(10, 'draft_value_ratio')[
                     ['PLAYER_FIRST_NAME', 'PLAYER_LAST_NAME', 'DRAFT_YEAR', 'DRAFT_NUMBER', 
@@ -201,18 +267,19 @@ def main():
                 ]
                 
                 for i, (_, player) in enumerate(top_roi.iterrows(), 1):
-                    with st.container():
-                        st.markdown(f"""
-                        **{i}. {player['PLAYER_FIRST_NAME']} {player['PLAYER_LAST_NAME']}**
-                        - ROI: {player['draft_value_ratio']:.1f}
-                        - Draft: {player['DRAFT_YEAR']:.0f} (#{int(player['DRAFT_NUMBER'])})
-                        - Career: {player['career_length']} years
-                        - Value Score: {player['value_score']:.1f}
-                        """)
-                        st.divider()
+                    st.markdown(f"""
+                    <div class="player-card">
+                        <strong>{i}. {player['PLAYER_FIRST_NAME']} {player['PLAYER_LAST_NAME']}</strong><br>
+                        <strong>ROI:</strong> {player['draft_value_ratio']:.2f} | 
+                        <strong>Draft:</strong> {player['DRAFT_YEAR']:.0f} (#{int(player['DRAFT_NUMBER'])})<br>
+                        <strong>Career:</strong> {player['career_length']} years | 
+                        <strong>Value Score:</strong> {player['value_score']:.1f}
+                    </div>
+                    """, unsafe_allow_html=True)
         
         with perf_col2:
-            st.subheader("⭐ Top 10 Value Score Players")
+            st.subheader("Highest Value Score Players")
+            st.markdown("*Players with the highest overall career value*")
             if len(df_filtered) > 0:
                 top_value = df_filtered.nlargest(10, 'value_score')[
                     ['PLAYER_FIRST_NAME', 'PLAYER_LAST_NAME', 'DRAFT_YEAR', 'DRAFT_NUMBER', 
@@ -221,54 +288,108 @@ def main():
                 
                 for i, (_, player) in enumerate(top_value.iterrows(), 1):
                     draft_info = f"#{int(player['DRAFT_NUMBER'])}" if pd.notna(player['DRAFT_NUMBER']) else "Undrafted"
-                    with st.container():
-                        st.markdown(f"""
-                        **{i}. {player['PLAYER_FIRST_NAME']} {player['PLAYER_LAST_NAME']}**
-                        - Value Score: {player['value_score']:.1f}
-                        - Draft: {player['DRAFT_YEAR']:.0f} ({draft_info})
-                        - Stats: {player['PTS']:.1f} PTS, {player['REB']:.1f} REB, {player['AST']:.1f} AST
-                        - Career: {player['career_length']} years
-                        """)
-                        st.divider()
+                    st.markdown(f"""
+                    <div class="player-card">
+                        <strong>{i}. {player['PLAYER_FIRST_NAME']} {player['PLAYER_LAST_NAME']}</strong><br>
+                        <strong>Value Score:</strong> {player['value_score']:.1f} | 
+                        <strong>Draft:</strong> {player['DRAFT_YEAR']:.0f} ({draft_info})<br>
+                        <strong>Stats:</strong> {player['PTS']:.1f} PTS, {player['REB']:.1f} REB, {player['AST']:.1f} AST<br>
+                        <strong>Career:</strong> {player['career_length']} years
+                    </div>
+                    """, unsafe_allow_html=True)
     
     with tab3:
-        st.markdown('<h2 class="section-header">Detailed Analysis</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 class="section-header">Statistical Analysis</h2>', unsafe_allow_html=True)
         
         analysis_col1, analysis_col2 = st.columns(2)
         
         with analysis_col1:
-            st.subheader("📊 ROI by Draft Round")
+            st.subheader("ROI Performance by Draft Round")
+            st.markdown("*Statistical breakdown of return on investment across draft rounds*")
             if len(drafted_players) > 0:
                 round_analysis = drafted_players.groupby('DRAFT_ROUND')['draft_value_ratio'].agg([
                     'count', 'mean', 'median', 'std'
-                ]).round(2)
-                round_analysis.columns = ['Players', 'Avg ROI', 'Median ROI', 'Std Dev']
-                round_analysis = round_analysis.sort_values('Avg ROI', ascending=False)
-                st.dataframe(round_analysis, use_container_width=True)
+                ]).round(3)
+                round_analysis.columns = ['Players', 'Mean ROI', 'Median ROI', 'Std Deviation']
+                round_analysis = round_analysis.sort_values('Mean ROI', ascending=False)
+                
+                st.dataframe(
+                    round_analysis, 
+                    use_container_width=True,
+                    column_config={
+                        "Players": st.column_config.NumberColumn("Players", format="%d"),
+                        "Mean ROI": st.column_config.NumberColumn("Mean ROI", format="%.3f"),
+                        "Median ROI": st.column_config.NumberColumn("Median ROI", format="%.3f"),
+                        "Std Deviation": st.column_config.NumberColumn("Std Deviation", format="%.3f")
+                    }
+                )
+                
+                # Key insights
+                st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+                best_round = round_analysis.index[0]
+                best_roi = round_analysis.iloc[0]['Mean ROI']
+                st.markdown(f"**Key Insight:** Round {int(best_round)} provides the highest average ROI at {best_roi:.3f}")
+                st.markdown('</div>', unsafe_allow_html=True)
         
         with analysis_col2:
-            st.subheader("🏀 Best Drafting Teams")
+            st.subheader("Team Drafting Performance")
+            st.markdown("*Historical drafting success by NBA franchises*")
             if len(drafted_players) > 0:
                 team_analysis = drafted_players.groupby('TEAM_NAME').agg({
                     'draft_value_ratio': ['count', 'mean', 'sum'],
                     'DRAFT_NUMBER': 'mean'
-                }).round(2)
-                team_analysis.columns = ['Players', 'Avg ROI', 'Total ROI', 'Avg Draft Pos']
+                }).round(3)
+                team_analysis.columns = ['Players', 'Avg ROI', 'Total ROI', 'Avg Draft Position']
                 team_analysis = team_analysis[team_analysis['Players'] >= 5]  # At least 5 players
                 team_analysis = team_analysis.sort_values('Avg ROI', ascending=False)
-                st.dataframe(team_analysis.head(15), use_container_width=True)
+                
+                st.dataframe(
+                    team_analysis.head(15), 
+                    use_container_width=True,
+                    column_config={
+                        "Players": st.column_config.NumberColumn("Players", format="%d"),
+                        "Avg ROI": st.column_config.NumberColumn("Avg ROI", format="%.3f"),
+                        "Total ROI": st.column_config.NumberColumn("Total ROI", format="%.3f"),
+                        "Avg Draft Position": st.column_config.NumberColumn("Avg Draft Position", format="%.1f")
+                    }
+                )
+                
+                # Key insights
+                st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+                best_team = team_analysis.index[0]
+                best_team_roi = team_analysis.iloc[0]['Avg ROI']
+                st.markdown(f"**Key Insight:** {best_team} leads in drafting efficiency with {best_team_roi:.3f} average ROI")
+                st.markdown('</div>', unsafe_allow_html=True)
         
         # Value Score Distribution
-        st.subheader("📈 Value Score Distribution")
+        st.subheader("Career Value Distribution Analysis")
+        st.markdown("*Distribution of player value scores across the dataset*")
         if len(df_filtered) > 0:
             fig_hist = px.histogram(
                 df_filtered, 
                 x='value_score', 
                 nbins=50,
-                title="Distribution of Value Scores",
-                labels={'value_score': 'Value Score', 'count': 'Frequency'}
+                title="Distribution of Career Value Scores",
+                labels={'value_score': 'Career Value Score', 'count': 'Number of Players'},
+                color_discrete_sequence=['#6366f1']
+            )
+            fig_hist.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(size=12)
             )
             st.plotly_chart(fig_hist, use_container_width=True)
+            
+            # Statistical summary
+            col1, col2, col3, col4 = st.columns(4)
+            with col1:
+                st.metric("Mean Value Score", f"{df_filtered['value_score'].mean():.1f}")
+            with col2:
+                st.metric("Median Value Score", f"{df_filtered['value_score'].median():.1f}")
+            with col3:
+                st.metric("Standard Deviation", f"{df_filtered['value_score'].std():.1f}")
+            with col4:
+                st.metric("Maximum Value Score", f"{df_filtered['value_score'].max():.1f}")
     
     with tab4:
         st.markdown('<h2 class="section-header">Data Explorer</h2>', unsafe_allow_html=True)
@@ -277,7 +398,11 @@ def main():
         search_col1, search_col2 = st.columns([2, 1])
         
         with search_col1:
-            search_player = st.text_input("🔍 Search for a player:", placeholder="Enter player name...")
+            search_player = st.text_input(
+                "Search for a player:", 
+                placeholder="Enter player first or last name...",
+                help="Search functionality is case-insensitive"
+            )
         
         with search_col2:
             show_all = st.checkbox("Show all players", value=False)
@@ -287,12 +412,16 @@ def main():
             mask = (df_filtered['PLAYER_FIRST_NAME'].str.contains(search_player, case=False, na=False) | 
                    df_filtered['PLAYER_LAST_NAME'].str.contains(search_player, case=False, na=False))
             display_df = df_filtered[mask]
-            st.success(f"Found {len(display_df)} player(s) matching '{search_player}'")
+            if len(display_df) > 0:
+                st.success(f"Found {len(display_df)} player(s) matching '{search_player}'")
+            else:
+                st.warning(f"No players found matching '{search_player}'")
         elif show_all:
             display_df = df_filtered
+            st.info(f"Displaying all {len(display_df)} players in the filtered dataset")
         else:
             display_df = df_filtered.head(100)  # Show first 100 by default
-            st.info("Showing first 100 players. Use search or 'Show all players' to see more.")
+            st.info("Displaying first 100 players. Use search or 'Show all players' to see more.")
         
         # Select columns to display
         available_columns = ['PLAYER_FIRST_NAME', 'PLAYER_LAST_NAME', 'DRAFT_YEAR', 'DRAFT_ROUND', 
@@ -305,33 +434,50 @@ def main():
         selected_columns = st.multiselect(
             "Select columns to display:",
             options=available_columns,
-            default=available_columns[:8]  # Show first 8 columns by default
+            default=available_columns[:8],  # Show first 8 columns by default
+            help="Choose which data columns to display in the table below"
         )
         
-        if selected_columns:
+        if selected_columns and len(display_df) > 0:
             st.dataframe(
                 display_df[selected_columns],
                 use_container_width=True,
-                hide_index=True
+                hide_index=True,
+                column_config={
+                    "PLAYER_FIRST_NAME": "First Name",
+                    "PLAYER_LAST_NAME": "Last Name",
+                    "DRAFT_YEAR": st.column_config.NumberColumn("Draft Year", format="%d"),
+                    "DRAFT_ROUND": st.column_config.NumberColumn("Round", format="%d"),
+                    "DRAFT_NUMBER": st.column_config.NumberColumn("Pick #", format="%d"),
+                    "PTS": st.column_config.NumberColumn("PPG", format="%.1f"),
+                    "REB": st.column_config.NumberColumn("RPG", format="%.1f"),
+                    "AST": st.column_config.NumberColumn("APG", format="%.1f"),
+                    "career_length": st.column_config.NumberColumn("Career Length", format="%d"),
+                    "value_score": st.column_config.NumberColumn("Value Score", format="%.1f"),
+                    "draft_value_ratio": st.column_config.NumberColumn("ROI", format="%.3f")
+                }
             )
         
         # Download button
         if len(display_df) > 0:
             csv = display_df.to_csv(index=False)
             st.download_button(
-                label="📥 Download filtered data as CSV",
+                label="Download filtered data as CSV",
                 data=csv,
-                file_name="nba_draft_roi_filtered.csv",
-                mime="text/csv"
+                file_name="nba_draft_roi_analysis.csv",
+                mime="text/csv",
+                help="Download the currently filtered data as a CSV file"
             )
     
     # Footer
     st.markdown("---")
     st.markdown(
         """
-        <div style='text-align: center; color: #666; margin-top: 2rem;'>
-        <p>🏀 NBA Draft ROI Analysis Dashboard | Built with Streamlit</p>
-        <p>Data includes player statistics, draft information, and calculated value metrics</p>
+        <div style='text-align: center; color: #64748b; margin-top: 3rem; padding: 2rem; background-color: #f8fafc; border-radius: 10px;'>
+        <h4 style='color: #1e293b; margin-bottom: 1rem;'>NBA Draft ROI Analysis Dashboard</h4>
+        <p style='margin-bottom: 0.5rem;'><strong>Professional Analytics Platform</strong></p>
+        <p style='margin-bottom: 0.5rem;'>Comprehensive analysis of NBA draft performance and return on investment</p>
+        <p style='margin-bottom: 0;'><em>Built with advanced data science methodologies and interactive visualization</em></p>
         </div>
         """, 
         unsafe_allow_html=True
