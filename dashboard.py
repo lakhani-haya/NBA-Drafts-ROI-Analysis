@@ -603,14 +603,16 @@ def main():
                 display_columns = ['total_picks', 'avg_roi_per_season', 'quality_pick_rate', 
                                  'late_round_gems', 'avg_value', 'avg_career_length']
                 
-                # Reset index to show team names as a column
+                # Reset index to show team names as a column and rename the index column
                 team_display_df = team_efficiency_df[display_columns].round(3).reset_index()
+                team_display_df = team_display_df.rename(columns={'index': 'Team'})
                 
                 st.dataframe(
                     team_display_df,
                     use_container_width=True,
+                    hide_index=True,
                     column_config={
-                        "TEAM_NAME": st.column_config.TextColumn("Team Name"),
+                        "Team": st.column_config.TextColumn("Team Name", width="medium"),
                         "total_picks": st.column_config.NumberColumn("Total Picks", format="%d"),
                         "avg_roi_per_season": st.column_config.NumberColumn("Avg ROI/Season", format="%.3f"),
                         "quality_pick_rate": st.column_config.NumberColumn("Quality Pick %", format="%.1f%%"),
@@ -710,34 +712,40 @@ def main():
             insight_col1, insight_col2 = st.columns(2)
             
             with insight_col1:
-                st.markdown('<div class="insight-box">', unsafe_allow_html=True)
-                st.markdown("**🏆 Top Performers:**")
-                top_roi = team_efficiency_df.nlargest(3, 'avg_roi_per_season')
-                for i, (team, data) in enumerate(top_roi.iterrows(), 1):
-                    st.markdown(f"**{i}.** {team} - {data['avg_roi_per_season']:.3f} ROI/season")
-                st.markdown('</div>', unsafe_allow_html=True)
-                
-                st.markdown('<div class="insight-box">', unsafe_allow_html=True)
-                st.markdown("**💎 Late Round Specialists:**")
-                top_gems = team_efficiency_df.nlargest(3, 'late_round_gems')
-                for i, (team, data) in enumerate(top_gems.iterrows(), 1):
-                    st.markdown(f"**{i}.** {team} - {int(data['late_round_gems'])} gems found")
-                st.markdown('</div>', unsafe_allow_html=True)
+                if len(team_efficiency_df) >= 3:
+                    st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+                    st.markdown("**🏆 Top Performers:**")
+                    top_roi = team_efficiency_df.nlargest(3, 'avg_roi_per_season')
+                    for i, (team, data) in enumerate(top_roi.iterrows(), 1):
+                        st.markdown(f"**{i}.** {team} - {data['avg_roi_per_season']:.3f} ROI/season")
+                    st.markdown('</div>', unsafe_allow_html=True)
+                    
+                    st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+                    st.markdown("**💎 Late Round Specialists:**")
+                    top_gems = team_efficiency_df.nlargest(3, 'late_round_gems')
+                    for i, (team, data) in enumerate(top_gems.iterrows(), 1):
+                        st.markdown(f"**{i}.** {team} - {int(data['late_round_gems'])} gems found")
+                    st.markdown('</div>', unsafe_allow_html=True)
+                else:
+                    st.info("Not enough team data available for insights.")
             
             with insight_col2:
-                st.markdown('<div class="insight-box">', unsafe_allow_html=True)
-                st.markdown("**🎯 Quality Pick Leaders:**")
-                top_quality = team_efficiency_df.nlargest(3, 'quality_pick_rate')
-                for i, (team, data) in enumerate(top_quality.iterrows(), 1):
-                    st.markdown(f"**{i}.** {team} - {data['quality_pick_rate']:.1f}% quality rate")
-                st.markdown('</div>', unsafe_allow_html=True)
-                
-                st.markdown('<div class="insight-box">', unsafe_allow_html=True)
-                st.markdown("**📊 League Averages:**")
-                st.markdown(f"• Quality Pick Rate: **{team_efficiency_df['quality_pick_rate'].mean():.1f}%**")
-                st.markdown(f"• ROI per Season: **{team_efficiency_df['avg_roi_per_season'].mean():.3f}**")
-                st.markdown(f"• Late Round Gems: **{team_efficiency_df['late_round_gems'].mean():.1f}**")
-                st.markdown('</div>', unsafe_allow_html=True)
+                if len(team_efficiency_df) >= 3:
+                    st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+                    st.markdown("**🎯 Quality Pick Leaders:**")
+                    top_quality = team_efficiency_df.nlargest(3, 'quality_pick_rate')
+                    for i, (team, data) in enumerate(top_quality.iterrows(), 1):
+                        st.markdown(f"**{i}.** {team} - {data['quality_pick_rate']:.1f}% quality rate")
+                    st.markdown('</div>', unsafe_allow_html=True)
+                    
+                    st.markdown('<div class="insight-box">', unsafe_allow_html=True)
+                    st.markdown("**📊 League Averages:**")
+                    st.markdown(f"• Quality Pick Rate: **{team_efficiency_df['quality_pick_rate'].mean():.1f}%**")
+                    st.markdown(f"• ROI per Season: **{team_efficiency_df['avg_roi_per_season'].mean():.3f}**")
+                    st.markdown(f"• Late Round Gems: **{team_efficiency_df['late_round_gems'].mean():.1f}**")
+                    st.markdown('</div>', unsafe_allow_html=True)
+                else:
+                    st.info("Not enough team data available for league averages.")
                 
         else:
             st.warning("⚠️ Team efficiency data not available. Please run `team_draft_efficiency.py` to generate the report.")
