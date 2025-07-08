@@ -561,7 +561,7 @@ def main():
                 best_quality_team = team_efficiency_df.nlargest(1, 'quality_pick_rate').iloc[0]
                 st.metric(
                     label="Best Quality Rate",
-                    value=f"{best_quality_team['quality_pick_rate']:.1f}",
+                    value=f"{best_quality_team['quality_pick_rate']:.1f}%",
                     delta=f"{best_quality_team.name}"
                 )
             
@@ -603,10 +603,14 @@ def main():
                 display_columns = ['total_picks', 'avg_roi_per_season', 'quality_pick_rate', 
                                  'late_round_gems', 'avg_value', 'avg_career_length']
                 
+                # Reset index to show team names as a column
+                team_display_df = team_efficiency_df[display_columns].round(3).reset_index()
+                
                 st.dataframe(
-                    team_efficiency_df[display_columns].round(3),
+                    team_display_df,
                     use_container_width=True,
                     column_config={
+                        "TEAM_NAME": st.column_config.TextColumn("Team Name"),
                         "total_picks": st.column_config.NumberColumn("Total Picks", format="%d"),
                         "avg_roi_per_season": st.column_config.NumberColumn("Avg ROI/Season", format="%.3f"),
                         "quality_pick_rate": st.column_config.NumberColumn("Quality Pick %", format="%.1f%%"),
