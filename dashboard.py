@@ -271,6 +271,9 @@ def load_team_efficiency_data():
     """Load the team draft efficiency report"""
     try:
         team_df = pd.read_csv("team_draft_efficiency_report.csv")
+        # Set TEAM_NAME as index if it's not already
+        if 'TEAM_NAME' in team_df.columns:
+            team_df = team_df.set_index('TEAM_NAME')
         return team_df
     except FileNotFoundError:
         st.warning("⚠️ Team efficiency report not found. Run team_draft_efficiency.py to generate it.")
@@ -603,16 +606,15 @@ def main():
                 display_columns = ['total_picks', 'avg_roi_per_season', 'quality_pick_rate', 
                                  'late_round_gems', 'avg_value', 'avg_career_length']
                 
-                # Reset index to show team names as a column and rename the index column
+                # Reset index to show team names as a column
                 team_display_df = team_efficiency_df[display_columns].round(3).reset_index()
-                team_display_df = team_display_df.rename(columns={'index': 'Team'})
                 
                 st.dataframe(
                     team_display_df,
                     use_container_width=True,
                     hide_index=True,
                     column_config={
-                        "Team": st.column_config.TextColumn("Team Name", width="medium"),
+                        "TEAM_NAME": st.column_config.TextColumn("Team Name", width="medium"),
                         "total_picks": st.column_config.NumberColumn("Total Picks", format="%d"),
                         "avg_roi_per_season": st.column_config.NumberColumn("Avg ROI/Season", format="%.3f"),
                         "quality_pick_rate": st.column_config.NumberColumn("Quality Pick %", format="%.1f%%"),
