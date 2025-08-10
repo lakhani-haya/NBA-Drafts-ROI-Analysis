@@ -49,8 +49,8 @@ Using historical NBA player data, this project calculates a custom "value score"
 ## Contact
 
 
-🌐 Portfolio: [lakhani-haya.github.io](https://lakhani-haya.github.io/) 
-🔗 LinkedIn: [linkedin.com/in/haya-lakhani](https://www.linkedin.com/in/haya-lakhani)  
+Portfolio: [lakhani-haya.github.io](https://lakhani-haya.github.io/) 
+LinkedIn: [linkedin.com/in/haya-lakhani](https://www.linkedin.com/in/haya-lakhani)  
 
 
 
