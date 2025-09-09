@@ -21,7 +21,7 @@ def load_and_clean_data(file_path):
     print("\nDataset Info:")
     print(df.info())
     
-    # Convert DRAFT_NUMBER to numeric (remo
+    # Convert DRAFT_NUMBER to numeric (rem
     print("\nCleaning DRAFT_NUMBER column...")
     print(f"DRAFT_NUMBER unique values before cleaning: {df['DRAFT_NUMBER'].unique()[:20]}")  # Show first 20 unique values
     
