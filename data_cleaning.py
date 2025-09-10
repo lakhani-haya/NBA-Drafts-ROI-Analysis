@@ -12,7 +12,7 @@ def load_and_clean_data(file_path):
         pd.DataFrame: Cleaned DataFrame
     """
     
-    # Re
+    # 
     print("Loading CSV file...")
     df = pd.read_csv(file_path)
     print(f"Original data shape: {df.shape}")
