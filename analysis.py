@@ -13,7 +13,7 @@ def analyze_top_roi_players(df):
     print("TOP 10 ROI PLAYERS")
     print("=" * 50)
     
-    # Filter ondrafted players with valid ROI
+    # Filter odrafted players with valid ROI
     drafted_players = df[df['draft_value_ratio'].notna()]
     
     if len(drafted_players) == 0:
