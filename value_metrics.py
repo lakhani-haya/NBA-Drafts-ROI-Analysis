@@ -12,7 +12,7 @@ def calculate_value_metrics(df):
         pd.DataFrame: DataFrame with added value metrics
     """
     
-    #  coto avoid modifying the original dataframe
+    #  copy to avoid modifying the original dataframe
     df_metrics = df.copy()
     
     print("Calculating value metrics...")
