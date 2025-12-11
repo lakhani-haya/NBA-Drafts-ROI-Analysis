@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Set up professional color theme
+# Set up professional color th
 plt.style.use('default')
 sns.set_palette("Set2")
 
