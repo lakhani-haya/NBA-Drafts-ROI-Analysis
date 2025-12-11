@@ -263,7 +263,7 @@ def load_data():
         df = pd.read_csv("NBAStats_with_value_metrics.csv")
         return df
     except FileNotFoundError:
-        st.error("❌ Could not find 'NBAStats_with_value_metrics.csv'. Please run value_metrics.py first.")
+        st.error("Could not find 'NBAStats_with_value_metrics.csv'. Please run value_metrics.py first.")
         st.stop()
 
 @st.cache_data
