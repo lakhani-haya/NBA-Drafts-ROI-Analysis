@@ -276,7 +276,7 @@ def load_team_efficiency_data():
             team_df = team_df.set_index('TEAM_NAME')
         return team_df
     except FileNotFoundError:
-        st.warning("⚠️ Team efficiency report not found. Run team_draft_efficiency.py to generate it.")
+        st.warning("Team efficiency report not found. Run team_draft_efficiency.py to generate it.")
         return None
 
 def calculate_enhanced_metrics(df):
