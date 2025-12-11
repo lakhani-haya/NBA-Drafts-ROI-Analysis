@@ -15,7 +15,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"  # Start with sidebar collapsed to prevent layout shifts
 )
 
-# Custom CSS for light NBA-inspired theme
+# Custom CSS for light NBA-inspired 
 st.markdown("""
 <style>
     /* Import Google Fonts */
