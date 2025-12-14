@@ -7,7 +7,7 @@ import seaborn as sns
 plt.style.use('default')
 sns.set_palette("Set2")
 
-# Define co
+# Define 
 COLORS = {
     'primary': '#C8102E',      # NBA red (official NBA color)
     'secondary': '#1D428A',    # Royal blue (classic basketball)
