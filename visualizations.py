@@ -70,7 +70,7 @@ def create_scatter_plot(df):
     
     plt.figure(figsize=(12, 8))
     
-    # Create scatter plot with  mapping
+    # Create scatter plot with colomapping
     scatter = plt.scatter(drafted_players['DRAFT_NUMBER'], drafted_players['value_score'], 
                          c=drafted_players['value_score'], 
                          cmap='RdYlBu_r',  # Premium red-yellow-blue colormap
