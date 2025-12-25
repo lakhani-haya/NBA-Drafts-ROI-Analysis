@@ -8,7 +8,7 @@ plt.style.use('default')
 sns.set_palette("Set2")
 
 COLORS = {
-    'primary': '#C8102E',      # NBA red (
+    'primary': '#C8102E',      # NBA red
     'secondary': '#1D428A',    # Royal blue (classic basketball)
     'accent': '#FDB927',       # Lakers gold (championship legacy)
     'success': '#00788C',      # Teal (modern basketball courts)
