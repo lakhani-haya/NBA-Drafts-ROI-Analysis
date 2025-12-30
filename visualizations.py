@@ -16,7 +16,7 @@ COLORS = {
     'danger': '#CE1141',       # Houston red (intensity)
     'light': '#F7F7F7',        # Court white
     'medium': '#8B8680',       # Neutral gray
-    'dark': '#0C2340',         # Deep navy (premium
+    'dark': '#0C2340',         # Deep navy (premi
     'gradient_start': '#C8102E', # Red to blue gradient
     'gradient_end': '#1D428A',
     'court_wood': '#D4A574',   # Basketball court wood
