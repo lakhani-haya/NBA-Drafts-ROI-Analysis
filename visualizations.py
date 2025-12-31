@@ -13,7 +13,7 @@ COLORS = {
     'accent': '#FDB927',       # Lakers gold (championship legacy)
     'success': '#00788C',      # Teal (modern basketball courts)
     'warning': '#FF6900',      # Phoenix orange (energy)
-    'danger': '#CE1141',       # Houston red (i
+    'danger': '#CE1141',       # Houston red
     'light': '#F7F7F7',        # Court white
     'medium': '#8B8680',       # Neutral gray
     'dark': '#0C2340',         # Deep navy 
