@@ -19,7 +19,7 @@ COLORS = {
     'dark': '#0C2340',         # Deep navy 
     'gradient_start': '#C8102E', # Red to blue gradient
     'gradient_end': '#1D428A',
-    'court_wood': '#D4A574',   #
+    'court_wood': '#D4A574',  
     'net_white': '#FFFFFF',    
     'chart_colors': ['#C8102E', '#1D428A', '#FDB927', '#00788C', '#FF6900', '#CE1141', '#6F263D', '#0E2240', '#753BBD', '#E56020']
 }
