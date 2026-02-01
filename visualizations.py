@@ -12,7 +12,7 @@ COLORS = {
     'secondary': '#1D428A',    # Royal blue
     'accent': '#FDB927',       # Lakers gold (championship legacy)
     'success': '#00788C',      # Teal (modern basketball courts)
-    'warning': '#FF6900',      # Phoenix orange (ene
+    'warning': '#FF6900',      # Phoenix orange (
     'danger': '#CE1141',       # Houston red
     'light': '#F7F7F7',        # Court white
     'medium': '#8B8680',       # Neutral gray
