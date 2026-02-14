@@ -10,7 +10,7 @@ sns.set_palette("Set2")
 COLORS = {
     'primary': '#C8102E',      # NBA red
     'secondary': '#1D428A',    # Royal blue
-    'accent': '#FDB927',       # Lakers gold (championship
+    'accent': '#FDB927',       # Lakers gold
     'success': '#00788C',      # Teal
     'warning': '#FF6900',      # Phoenix orange
     'danger': '#CE1141',       # Houston red
