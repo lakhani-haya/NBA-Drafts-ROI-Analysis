@@ -133,14 +133,14 @@ def analyze_team_draft_efficiency(df_enhanced):
     # Filter teams with meaningful sample size (minimum 10 picks)
     qualified_teams = team_stats[team_stats['total_picks'] >= 10].copy()
     
-    print(f"✅ Analysis complete for {len(qualified_teams)} qualified teams")
+    print(f"Analysis complete for {len(qualified_teams)} qualified teams")
     return qualified_teams, drafted
 
 def create_team_efficiency_dashboard(team_stats, drafted_players):
     """
     Create comprehensive visualizations for team draft efficiency
     """
-    print("📊 Creating Team Draft Efficiency Dashboard...")
+    print("Creating Team Draft Efficiency Dashboard...")
     
     # 1. Top Performing Teams by ROI per Season
     fig1 = px.bar(
