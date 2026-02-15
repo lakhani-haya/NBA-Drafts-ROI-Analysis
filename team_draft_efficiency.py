@@ -6,7 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-# Set up professional NBA styling
+# Set up pr NBA styling
 plt.style.use('default')
 COLORS = {
     'primary': '#C8102E',      # NBA red
