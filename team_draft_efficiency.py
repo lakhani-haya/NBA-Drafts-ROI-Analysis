@@ -20,7 +20,7 @@ def calculate_per_season_roi(df):
     """
     Calculate ROI per season played, giving more weight to efficiency
     """
-    print("🏀 Calculating Per-Season ROI Metrics...")
+    print("Calculating Per-Season ROI Metrics...")
     
     # Create enhanced metrics
     df_enhanced = df.copy()
