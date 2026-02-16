@@ -75,7 +75,7 @@ def calculate_per_season_roi(df):
     
     df_enhanced['quality_tier'] = df_enhanced['value_score'].apply(quality_tier)
     
-    print(f"✅ Enhanced metrics calculated for {len(df_enhanced)} players")
+    print(f"Enhanced metrics calculated for {len(df_enhanced)} players")
     return df_enhanced
 
 def analyze_team_draft_efficiency(df_enhanced):
