@@ -82,7 +82,7 @@ def analyze_team_draft_efficiency(df_enhanced):
     """
     Comprehensive team draft efficiency analysis
     """
-    print("🏆 Analyzing Team Draft Efficiency...")
+    print("Analyzing Team Draft Efficiency...")
     
     # Filter to drafted players only
     drafted = df_enhanced[df_enhanced['DRAFT_NUMBER'].notna()].copy()
