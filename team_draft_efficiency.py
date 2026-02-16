@@ -88,7 +88,7 @@ def analyze_team_draft_efficiency(df_enhanced):
     drafted = df_enhanced[df_enhanced['DRAFT_NUMBER'].notna()].copy()
     
     if len(drafted) == 0:
-        print("❌ No drafted players found")
+        print("No drafted players found")
         return None
     
     # Team-level aggregations
