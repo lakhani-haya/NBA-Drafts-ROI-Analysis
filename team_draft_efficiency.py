@@ -235,7 +235,7 @@ def generate_draft_efficiency_report(team_stats, drafted_players):
     """
     print("Generating Draft Efficiency Report...")
     print("=" * 80)
-    print("🏀 NBA TEAM DRAFT EFFICIENCY REPORT")
+    print("NBA TEAM DRAFT EFFICIENCY REPORT")
     print("=" * 80)
     
     # Top performers in each category
