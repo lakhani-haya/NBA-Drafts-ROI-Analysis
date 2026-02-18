@@ -239,7 +239,7 @@ def generate_draft_efficiency_report(team_stats, drafted_players):
     print("=" * 80)
     
     # Top performers in each category
-    print("\n🏆 TOP PERFORMERS BY CATEGORY")
+    print("\n TOP PERFORMERS BY CATEGORY")
     print("-" * 50)
     
     print(f"\n📈 Best ROI per Season:")
