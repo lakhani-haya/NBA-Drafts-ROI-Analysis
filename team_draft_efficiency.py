@@ -227,7 +227,7 @@ def create_team_efficiency_dashboard(team_stats, drafted_players):
     )
     fig4.show()
     
-    print("✅ Dashboard visualizations created successfully!")
+    print("Dashboard visualizations created successfully!")
 
 def generate_draft_efficiency_report(team_stats, drafted_players):
     """
