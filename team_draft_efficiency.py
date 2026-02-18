@@ -233,7 +233,7 @@ def generate_draft_efficiency_report(team_stats, drafted_players):
     """
     Generate comprehensive text report
     """
-    print("📋 Generating Draft Efficiency Report...")
+    print("Generating Draft Efficiency Report...")
     print("=" * 80)
     print("🏀 NBA TEAM DRAFT EFFICIENCY REPORT")
     print("=" * 80)
