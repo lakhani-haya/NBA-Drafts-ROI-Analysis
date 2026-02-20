@@ -258,7 +258,7 @@ def generate_draft_efficiency_report(team_stats, drafted_players):
         print(f"{i:2d}. {team:<20} {int(data['late_round_gems'])} late round gems")
     
     # Draft position analysis
-    print(f"\n📊 DRAFT EFFICIENCY BY POSITION")
+    print(f"\n DRAFT EFFICIENCY BY POSITION")
     print("-" * 50)
     
     position_analysis = drafted_players.groupby('draft_category').agg({
