@@ -242,7 +242,7 @@ def generate_draft_efficiency_report(team_stats, drafted_players):
     print("\n TOP PERFORMERS BY CATEGORY")
     print("-" * 50)
     
-    print(f"\n📈 Best ROI per Season:")
+    print(f"\n Best ROI per Season:")
     top_roi = team_stats.nlargest(5, 'avg_roi_per_season')
     for i, (team, data) in enumerate(top_roi.iterrows(), 1):
         print(f"{i:2d}. {team:<20} {data['avg_roi_per_season']:.3f} ROI/season")
