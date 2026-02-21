@@ -9,7 +9,7 @@ from plotly.subplots import make_subplots
 # Set up NBA styling
 plt.style.use('default')
 COLORS = {
-    'primary': '#C8102E',      # Nred
+    'primary': '#C8102E',      
     'secondary': '#1D428A',    # Royal blue  
     'accent': '#FDB927',       # Lakers gold
     'success': '#00788C',      # Teal
