@@ -6,7 +6,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-# Set up Nstyling
+# Set up styling
 plt.style.use('default')
 COLORS = {
     'primary': '#C8102E',      
